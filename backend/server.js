@@ -12,6 +12,10 @@ const port = 3000
 app.use(cors({ origin: process.env.CLIENT_ORIGIN, credentials: true }));
 app.use(express.json());
 
+app.get('/', (req, res) => {
+  res.send("Server is Running!")
+})
+
 // Routes
 app.use("/api/subjects", subjectRoutes);
 app.use("/api/watchlist", watchlistRoute)

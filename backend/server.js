@@ -7,6 +7,7 @@ import watchlistRoute  from "./routes/watchlistRoute.js"
 
 dotenv.config();
 const app = express();
+const port = 3000
 
 app.use(cors({ origin: process.env.CLIENT_ORIGIN, credentials: true }));
 app.use(express.json());
@@ -19,4 +20,6 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
 
-app.listen(process.env.PORT, () => console.log(`Server running on ${process.env.PORT}`));
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`)
+})

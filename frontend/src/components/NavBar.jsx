@@ -18,9 +18,8 @@ export const NavBar = () => {
 
         const term = searchTerm.toLowerCase().trim();
 
-        // Match if title starts with OR includes the search term
+        // Find subject whose title includes the search term (anywhere, case-insensitive)
         const found = assets.find(item =>
-            item.title.toLowerCase().startsWith(term) ||
             item.title.toLowerCase().includes(term)
         );
 
@@ -32,6 +31,7 @@ export const NavBar = () => {
             alert('No subject found!');
         }
     };
+
 
     return (
         <div className="w-full bg-gray-200 shadow-md">

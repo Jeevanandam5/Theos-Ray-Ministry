@@ -16,15 +16,13 @@ export const NavBar = () => {
     const handleSearch = () => {
         if (!searchTerm.trim()) return;
 
-        // Remove spaces and lowercase
-        const term = searchTerm.toLowerCase().replace(/\s+/g, '').trim();
+        const term = searchTerm.toLowerCase().trim();
 
-        // Check if ANY word in the search matches part of the title
+        // Match if title starts with OR includes the search term
         const found = assets.find(item =>
-            item.title.toLowerCase().split(' ').some(word => word.includes(term)) ||
-            item.title.toLowerCase().replace(/\s+/g, '').includes(term)
+            item.title.toLowerCase().startsWith(term) ||
+            item.title.toLowerCase().includes(term)
         );
-        
 
         if (found) {
             navigate(`/subject/${found._id}`);
@@ -34,7 +32,6 @@ export const NavBar = () => {
             alert('No subject found!');
         }
     };
-
 
     return (
         <div className="w-full bg-gray-200 shadow-md">
@@ -87,18 +84,15 @@ export const NavBar = () => {
                 <div className="flex items-center gap-3 md:hidden">
                     <SearchIcon
                         className="w-6 h-6 text-gray-700 cursor-pointer"
-                        onClick={() => setShowSearch(!showSearch)}
-                    />
+                        onClick={() => setShowSearch(!showSearch)} />
                     {menuOpen ? (
                         <X
                             className="w-6 h-6 text-gray-700 cursor-pointer"
-                            onClick={() => setMenuOpen(false)}
-                        />
+                            onClick={() => setMenuOpen(false)} />
                     ) : (
                         <Menu
                             className="w-6 h-6 text-gray-700 cursor-pointer"
-                            onClick={() => setMenuOpen(true)}
-                        />
+                            onClick={() => setMenuOpen(true)} />
                     )}
                 </div>
             </div>
@@ -118,9 +112,34 @@ export const NavBar = () => {
                             onChange={(e) => setSearchTerm(e.target.value)}
                             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                             className="border-none bg-transparent outline-none px-2 text-sm w-full"
-                            autoFocus
-                        />
+                            autoFocus />
                     </div>
+                </div>
+            )}
+
+            {/* Mobile Menu (SignIn/UserButton) */}
+            {menuOpen && (
+                <div className="md:hidden px-4 pb-3 flex flex-col gap-3 animate-fadeIn">
+                    {!isSignedIn ? (
+                        <SignInButton mode="modal">
+                            <button className="px-4 py-2 bg-primary hover:bg-primary/90 transition rounded-lg font-medium text-white shadow-md hover:shadow-lg cursor-pointer">
+                                Sign In
+                            </button>
+                        </SignInButton>
+                    ) : (
+                        <UserButton>
+                            <UserButton.MenuItems>
+                                <UserButton.Action
+                                    label="Watch Later"
+                                    labelIcon={<TicketPlus width={15} />}
+                                    onClick={() => {
+                                        navigate('/watchlater');
+                                        setMenuOpen(false);
+                                    }}
+                                />
+                            </UserButton.MenuItems>
+                        </UserButton>
+                    )}
                 </div>
             )}
         </div>

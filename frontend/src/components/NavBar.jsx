@@ -12,13 +12,12 @@ export const NavBar = () => {
     const [showSearch, setShowSearch] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
 
-    // Handle search
     const handleSearch = () => {
         if (!searchTerm.trim()) return;
 
         const term = searchTerm.toLowerCase().trim();
 
-        // Find subject whose title includes the search term (anywhere, case-insensitive)
+        // find subject whose title contains the search term (Tamil/English both work)
         const found = assets.find(item =>
             item.title.toLowerCase().includes(term)
         );
@@ -28,9 +27,10 @@ export const NavBar = () => {
             setSearchTerm('');
             setShowSearch(false);
         } else {
-            alert('No subject found!');
+            alert(' No subject found!');
         }
     };
+
 
 
     return (
